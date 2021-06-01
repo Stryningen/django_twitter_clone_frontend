@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginOutModule from "./modules/LoginOutModule";
+import { useState } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import "./resources/css/main.css";
 
 function App() {
+  const [showLoginOutModule, setShowLoginOutModule] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header setShowLoginOutModule={setShowLoginOutModule} />
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/signup" component={SignUpPage} />
+        {showLoginOutModule && (
+          <LoginOutModule setShowLoginOutModule={setShowLoginOutModule} />
+        )}
+      </div>
+    </Router>
   );
 }
 
