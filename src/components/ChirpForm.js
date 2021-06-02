@@ -16,7 +16,7 @@ function ChirpForm(props) {
   return (
     <section className="chirp-form-container">
       <h2>Chirp to the World!</h2>
-      <form className="chirp-form">
+      <form className="form">
         <label htmlFor="chirp"></label>
         <textarea
           ref={chirpTextRef}

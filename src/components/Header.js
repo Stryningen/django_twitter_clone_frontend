@@ -15,8 +15,8 @@ function Header(props) {
         <Link to="/">Chirp</Link>
       </h2>
       <Link to="/signup">Sign up</Link>
-      <Link to="/">Link 2</Link>
-      <Link to="/">Link 3</Link>
+      <Link to="/">Profile</Link>
+      <Link to="/">Follow new chirpers</Link>
       <button onClick={handleOpenModule}>
         {currentUser ? "Logout" : "Login"}
       </button>
