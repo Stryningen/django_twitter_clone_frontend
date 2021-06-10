@@ -25,8 +25,6 @@ function SignUpPage() {
     const password = passwordRef.current.value;
     const passwordTwo = password2Ref.current.value;
 
-    console.log(ignorePasswordValidation);
-
     if (password === null || password === "") {
       setErrors([["Password", "Password cannot be empty"]]);
       return;
@@ -39,15 +37,20 @@ function SignUpPage() {
         ignore_password_validation: ignorePasswordValidation,
       };
       const response = await fetchApiAuth(data, END_POINTS.POST_USER_CREATE);
-      console.log(response);
-      if (response.password) {
-        response.password.forEach((error) => errors.push(["Password", error]));
+      if (response) {
+        if (response.password) {
+          response.password.forEach((error) =>
+            errors.push(["Password", error])
+          );
+        }
+        if (response.username) {
+          response.username.forEach((error) =>
+            errors.push(["Username", error])
+          );
+        }
+        setErrors(errors);
+        return;
       }
-      if (response.username) {
-        response.username.forEach((error) => errors.push(["Username", error]));
-      }
-      setErrors(errors);
-      return;
     }
     setErrors([["Password", "Confirm Password and Password must match"]]);
   };
@@ -71,7 +74,6 @@ function SignUpPage() {
         {errors && (
           <ul className="login-errors-wrapper">
             {errors.map((error, index) => {
-              console.log(error);
               return (
                 <li key={index}>
                   <span>{error[0]}:</span> {error[1]}

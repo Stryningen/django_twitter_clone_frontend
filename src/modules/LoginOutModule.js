@@ -1,12 +1,17 @@
 import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useAppContext } from "../context";
 import { fetchApiAuth, LSTORAGE_TAGS } from "../api";
 
 const LoginModule = (props) => {
   const [errors, setErrors] = useState([]);
+
+  const history = useHistory();
+
   const usernameRef = useRef(false);
   const passwordRef = useRef(false);
+
   const storage = window.localStorage;
 
   const { setCurrentUser } = useAppContext();
@@ -44,6 +49,7 @@ const LoginModule = (props) => {
     storage.setItem(LSTORAGE_TAGS.TOKEN, response.token);
     setCurrentUser(true);
     setShowLoginOutModule(false);
+    history.push("/");
   };
 
   return (
@@ -77,7 +83,10 @@ const LoginModule = (props) => {
 const LogoutModule = (props) => {
   const { setShowLoginOutModule } = props;
   const storage = window.localStorage;
+
   const { setCurrentUser } = useAppContext();
+
+  const history = useHistory();
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -85,6 +94,7 @@ const LogoutModule = (props) => {
     storage.removeItem(LSTORAGE_TAGS.TOKEN);
     setCurrentUser(false);
     setShowLoginOutModule(false);
+    history.push("/");
   };
   return (
     <>

@@ -9,7 +9,10 @@ function HomePage() {
   let [chirps, setChirps] = useState([]);
 
   useEffect(async () => {
-    setChirps(await fetchChirps());
+    const response = await fetchChirps();
+    if (response) {
+      setChirps(response);
+    }
   }, []);
 
   return (
