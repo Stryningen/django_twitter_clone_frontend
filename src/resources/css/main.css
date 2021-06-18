@@ -46,6 +46,16 @@ h1 {
   margin: 1rem 0;
 }
 
+.button-h-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.button-h-container > * {
+  margin: 0.5rem 0;
+}
+
 /***  Header  ***/
 
 header {
@@ -85,18 +95,21 @@ header *:last-child {
 /***  Chirp Component  ***/
 
 .chirp {
+  display: flex;
+  flex-flow: column nowrap;
   padding: 1rem;
+  justify-content: space-around;
   margin: 0.5rem 0;
   border: black solid 1px;
   border-radius: var(--radius-rounded-corner);
   min-width: 20em;
 }
 
-.chirp * {
+.chirp > * {
   margin-bottom: 0.5rem;
 }
 
-.chirp *:last-child {
+.chirp > *:last-child {
   margin-bottom: 0;
 }
 

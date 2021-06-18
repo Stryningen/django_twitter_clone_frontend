@@ -26,6 +26,7 @@ function HomePage() {
             chirp_id={chirp.id}
             chirp_text={chirp.tweet_text}
             chirp_image={chirp.tweet_image}
+            chirp_likes={chirp.tweet_likes}
             username={chirp.tweet_user ? chirp.tweet_user.username : "Guest"}
           />
         );

@@ -10,6 +10,7 @@ function ChirpForm(props) {
     const postedChirp = await fetchChirps(END_POINTS.POST_CHIRP, "POST", {
       tweet_text: chirpTextRef.current.value,
     });
+    console.log(postedChirp);
     setChirps([postedChirp, ...chirps]);
   };
   return (
