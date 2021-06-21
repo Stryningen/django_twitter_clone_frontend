@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
 import { END_POINTS, fetchApiAuth } from "../api";
+import { useHistory } from "react-router-dom";
 
 function SignUpPage() {
   const [errors, setErrors] = useState([]);
   const [ignorePasswordValidation, setIgnorePasswordValidation] =
     useState(false);
+
+  const history = useHistory();
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -49,6 +52,9 @@ function SignUpPage() {
           );
         }
         setErrors(errors);
+        if (errors.length < 1) {
+          history.push("/");
+        }
         return;
       }
     }

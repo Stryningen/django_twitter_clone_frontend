@@ -22,7 +22,7 @@ function HomePage() {
       {chirps.map((chirp, index) => {
         return (
           <Chirp
-            key={index}
+            key={chirp.id}
             chirp_id={chirp.id}
             chirp_text={chirp.tweet_text}
             chirp_image={chirp.tweet_image}

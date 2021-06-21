@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { useAppContext } from "../context";
 import { fetchApiAuth, LSTORAGE_TAGS } from "../api";
@@ -17,6 +17,12 @@ const LoginModule = (props) => {
   const { setCurrentUser } = useAppContext();
 
   const { setShowLoginOutModule } = props;
+
+  const handleLinkToSignup = (e) => {
+    e.preventDefault();
+    setShowLoginOutModule(false);
+    history.push("/signup");
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -73,9 +79,9 @@ const LoginModule = (props) => {
         )}
         <button onClick={handleLogin}>Login</button>
       </form>
-      <a className="sign-up-link" href="#">
+      <Link onClick={handleLinkToSignup} className="sign-up-link" to="/signup">
         Do not have an account? Click here to Sign Up!
-      </a>
+      </Link>
     </>
   );
 };
