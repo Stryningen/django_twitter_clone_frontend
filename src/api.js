@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 export const END_POINTS = {
   URL_API_CHIRPS: "http://localhost:8000/api/",
   GET_CHIRPS: "chirps/",
+  GET_CHIRP_DETAIL: "chirps/detailview/",
   POST_CHIRP: "chirps/create/",
   POST_CHIRP_ACTION: "chirps/action/",
   URL_API_AUTH: "http://localhost:8000/api-auth/",
@@ -48,7 +49,6 @@ export const fetchChirps = async (
   };
   if (data) {
     options = { ...options, body: JSON.stringify(data) };
-    method = "POST";
   }
 
   const loaded_chirps = await fetch(url, options)

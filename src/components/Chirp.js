@@ -2,7 +2,15 @@ import { useState } from "react";
 import { fetchChirpAction, CHIRPS_ACTIONS } from "../api";
 
 function Chirp(props) {
-  const { chirp_text, chirp_image, username, chirp_likes, chirp_id } = {
+  const {
+    chirp_text,
+    chirp_image,
+    username,
+    chirp_likes,
+    chirp_id,
+    chirps,
+    setChirps,
+  } = {
     ...props,
   };
 
@@ -11,7 +19,6 @@ function Chirp(props) {
   const handleLike = async (e) => {
     e.preventDefault();
     const response = await fetchChirpAction(CHIRPS_ACTIONS.LIKE, chirp_id);
-    console.log(response.action);
     if (response.action) {
       if (response.action === "like") {
         setLikes(likes + 1);
@@ -21,9 +28,13 @@ function Chirp(props) {
       }
     }
   };
-  const handleRechirp = (e) => {
+  const handleRechirp = async (e) => {
     e.preventDefault();
-    fetchChirpAction(CHIRPS_ACTIONS.RECHIRP, chirp_id);
+    const response = await fetchChirpAction(CHIRPS_ACTIONS.RECHIRP, chirp_id);
+    console.log(response);
+    if (response !== undefined) {
+      setChirps([response, ...chirps]);
+    }
   };
   return (
     <div className="chirp">
