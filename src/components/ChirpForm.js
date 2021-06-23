@@ -11,7 +11,9 @@ function ChirpForm(props) {
       tweet_text: chirpTextRef.current.value,
     });
     chirpTextRef.current.value = "";
-    setChirps([postedChirp, ...chirps]);
+    if (postedChirp) {
+      setChirps([postedChirp, ...chirps]);
+    }
   };
   return (
     <section className="chirp-form-container">

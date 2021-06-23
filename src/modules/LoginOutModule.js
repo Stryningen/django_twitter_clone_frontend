@@ -32,6 +32,9 @@ const LoginModule = (props) => {
       username: usernameRef.current.value,
       password: passwordRef.current.value,
     });
+    if (!response) {
+      return;
+    }
     if (response.non_field_errors) {
       response.non_field_errors.forEach((error) => {
         tmpErrors.push(["Failed", error]);

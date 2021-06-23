@@ -113,6 +113,15 @@ header *:last-child {
   margin-bottom: 0;
 }
 
+.rechirp {
+  transform: scale(0.9);
+}
+
+.rechirp-truncation {
+  padding: 0.2rem;
+  border: black solid 1px;
+  border-radius: 5px;
+}
 /***  Forms  ***/
 
 .chirp-form-container {

@@ -1,33 +1,41 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import Chirp from "../components/Chirp";
 
-import { fetchChirps, END_POINTS } from "../api";
+import {
+  fetchChirps,
+  END_POINTS,
+  fetchChirpAction,
+  CHIRPS_ACTIONS,
+} from "../api";
 
 function ChirpDetailView(props) {
   const [chirp, setChirp] = useState(null);
+
   const { id } = useParams();
+
+  const history = useHistory();
+
+  const rechirp = async (chirp) => {
+    const response = await fetchChirpAction(CHIRPS_ACTIONS.RECHIRP, chirp.id);
+    console.log(response);
+    history.push(`/detailview/${response.id}`, { state: "update" });
+    return;
+  };
 
   useEffect(async () => {
     const response = await fetchChirps(END_POINTS.GET_CHIRP_DETAIL + id, "GET");
     if (response) {
       console.log(response);
-      //setChirp(response);
+      setChirp(response);
     }
-  }, []);
+  }, [props.location]);
 
   return (
     <div>
       {chirp ? (
-        <Chirp
-          chirp_id={chirp.id}
-          chirp_text={chirp.tweet_text}
-          chirp_image={chirp.tweet_image}
-          chirp_likes={chirp.tweet_likes}
-          chirp_parent={chirp.tweet_parent}
-          username={chirp.tweet_user ? chirp.tweet_user.username : "Guest"}
-        />
+        <Chirp chirp={chirp} rechirp={rechirp} hideGoToButton={true} />
       ) : (
         `loading ${id}`
       )}
