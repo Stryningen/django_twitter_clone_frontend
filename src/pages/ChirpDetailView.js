@@ -33,13 +33,13 @@ function ChirpDetailView(props) {
   }, [props.location]);
 
   return (
-    <div>
+    <main className="detail-page">
       {chirp ? (
         <Chirp chirp={chirp} rechirp={rechirp} hideGoToButton={true} />
       ) : (
         `loading ${id}`
       )}
-    </div>
+    </main>
   );
 }
 

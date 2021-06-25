@@ -9,7 +9,9 @@
   --secondary-color: white;
   --radius-rounded-corner: 5px;
 
+  /* should add to 100vh */
   --header-height: 10vh;
+  --main-height: 90vh;
 }
 
 /***  General Elements  ***/
@@ -22,6 +24,7 @@ main {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  min-height: var(--main-height);
 }
 
 a {
@@ -75,21 +78,29 @@ header a:visited {
   color: var(--secondary-color);
 }
 
-header * {
-  margin: 0 1rem;
+header > *:first-child,
+header > button:last-child {
+  margin: auto 2rem;
 }
 
-header h2 {
-  margin: 0 2rem;
-}
-
-header *:nth-child(2) {
-  margin-left: auto;
-}
-
-header *:last-child {
+header > nav {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
   margin: auto;
-  margin-right: 4em;
+}
+
+header > nav > * {
+  margin: auto 2rem;
+}
+
+.center-h2-header {
+  margin-left: auto;
+  margin-right: 2rem;
+}
+
+.menu-header-button {
+  border: 1px solid var(--secondary-color);
 }
 
 /***  Chirp Component  ***/
@@ -102,7 +113,7 @@ header *:last-child {
   margin: 0.5rem 0;
   border: black solid 1px;
   border-radius: var(--radius-rounded-corner);
-  min-width: 20em;
+  min-width: 20rem;
 }
 
 .chirp > * {
@@ -113,7 +124,12 @@ header *:last-child {
   margin-bottom: 0;
 }
 
+.chirp-content {
+  max-width: 18rem;
+}
+
 .rechirp {
+  min-width: 18rem !important;
   transform: scale(0.9);
 }
 
@@ -121,7 +137,9 @@ header *:last-child {
   padding: 0.2rem;
   border: black solid 1px;
   border-radius: 5px;
+  transform: scale(0.9);
 }
+
 /***  Forms  ***/
 
 .chirp-form-container {
@@ -172,6 +190,10 @@ header *:last-child {
   justify-content: center;
 }
 
+.hide-module-wrapper {
+  min-width: 0;
+}
+
 .module {
   position: relative;
   display: flex;
@@ -186,6 +208,46 @@ header *:last-child {
 .module h2 {
   margin-top: 1rem;
   text-align: center;
+}
+
+.left-module {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  min-width: 0px;
+  max-width: 0px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: max-width 1s, min-width 1s;
+  border-radius: 0;
+}
+
+.left-module > * {
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.left-module > nav {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.left-module > button:last-child {
+  margin-top: auto;
+  margin-bottom: 3rem;
+}
+
+.left-module > nav > * {
+  min-width: 10rem;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.left-module-open {
+  max-width: 50vw;
+  min-width: 50vw;
 }
 
 .close-module-btn {
@@ -204,6 +266,7 @@ header *:last-child {
   display: flex;
   flex-flow: column nowrap;
   margin-top: auto;
+  transition: all 1s;
 }
 
 .login-form input,
@@ -231,7 +294,7 @@ button {
   margin-bottom: 1rem;
 }
 
-/***  Sign up page  ***/
+/***  Sign up Page  ***/
 
 .signup-page {
   min-height: calc(100vh - var(--header-height));
@@ -239,4 +302,10 @@ button {
 
 .signup-page h2 {
   margin: 3em;
+}
+
+/***  Detail Page  ***/
+
+.detail-page {
+  justify-content: center;
 }
