@@ -1,34 +1,15 @@
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 
 import Chirp from "../components/Chirp";
 import ChirpForm from "../components/ChirpForm";
 
-import {
-  fetchChirps,
-  fetchChirpAction,
-  CHIRPS_ACTIONS,
-  LSTORAGE_TAGS,
-} from "../api";
+import { fetchChirps, LSTORAGE_TAGS } from "../api";
 import { useAppContext } from "../context";
 
 function HomePage() {
-  let [chirps, setChirps] = useState([]);
-
-  const history = useHistory();
   const storage = window.localStorage;
 
-  const { currentUser } = useAppContext();
-
-  const rechirp = async (chirp) => {
-    const response = await fetchChirpAction(CHIRPS_ACTIONS.RECHIRP, chirp.id);
-    if (response !== undefined) {
-      setChirps([response, ...chirps]);
-      return;
-    }
-    history.push(`/detailview/${response.id}`, { state: "update" });
-    return;
-  };
+  const { currentUser, chirps, setChirps } = useAppContext();
 
   useEffect(async () => {
     const response = await fetchChirps();
@@ -44,16 +25,9 @@ function HomePage() {
           ? `Hello ${storage.getItem(LSTORAGE_TAGS.USERNAME)}`
           : "Welcome to Chirp"}
       </h1>
-      <ChirpForm chirps={chirps} setChirps={setChirps} />
+      <ChirpForm chirps={chirps} />
       {chirps.map((chirp) => {
-        return (
-          <Chirp
-            key={chirp.id}
-            chirp={chirp}
-            rechirp={rechirp}
-            isInnerChirp={false}
-          />
-        );
+        return <Chirp key={chirp.id} chirp={chirp} isInnerChirp={false} />;
       })}
     </main>
   );

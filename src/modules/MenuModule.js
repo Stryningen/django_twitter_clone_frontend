@@ -24,7 +24,7 @@ function MenuModule(props) {
       onClick={handleCloseModule}
       className={`module-wrapper ${!showMenuModule && "hide-module-wrapper"}`}
     >
-      <nav
+      <aside
         className={`module left-module ${showMenuModule && "left-module-open"}`}
       >
         <h2>Menu</h2>
@@ -52,7 +52,7 @@ function MenuModule(props) {
         <button ref={closeModuleBtnRef} onClick={handleCloseModule}>
           Close
         </button>
-      </nav>
+      </aside>
     </div>
   );
 }

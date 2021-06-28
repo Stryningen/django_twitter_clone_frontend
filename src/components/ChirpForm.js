@@ -1,10 +1,11 @@
 import { useRef } from "react";
 
 import { fetchChirps, END_POINTS } from "../api";
+import { useAppContext } from "../context";
 
-function ChirpForm(props) {
+function ChirpForm() {
   const chirpTextRef = useRef(null);
-  const { chirps, setChirps } = { ...props };
+  const { chirps, setChirps } = useAppContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postedChirp = await fetchChirps(END_POINTS.GET_CHIRPS, "POST", {

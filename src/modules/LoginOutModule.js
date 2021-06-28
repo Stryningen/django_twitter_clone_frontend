@@ -20,6 +20,7 @@ const LoginModule = (props) => {
 
   const handleLinkToSignup = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setShowLoginOutModule(false);
     history.push("/signup");
   };
@@ -139,7 +140,7 @@ function LoginOutModule(props) {
       className="module-wrapper"
       onClick={handleCloseModule}
     >
-      <div className="module">
+      <aside className="module">
         {currentUser ? (
           <LogoutModule setShowLoginOutModule={setShowLoginOutModule} />
         ) : (
@@ -152,7 +153,7 @@ function LoginOutModule(props) {
         >
           X
         </button>
-      </div>
+      </aside>
     </div>
   );
 }

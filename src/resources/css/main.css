@@ -222,10 +222,18 @@ header > nav > * {
   overflow: hidden;
   transition: max-width 1s, min-width 1s;
   border-radius: 0;
+  box-shadow: inset 5px 5px var(--secondary-color),
+    inset -5px -5px var(--secondary-color), inset 10px 10px var(--primary-color),
+    inset -10px -10px var(--primary-color);
 }
 
 .left-module > * {
   margin: 1rem auto;
+  text-align: center;
+}
+
+.left-module > h2 {
+  margin-top: auto;
   text-align: center;
 }
 

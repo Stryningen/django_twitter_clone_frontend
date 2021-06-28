@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { fetchChirpAction, CHIRPS_ACTIONS, LSTORAGE_TAGS } from "../api";
+import { fetchChirpAction, CHIRPS_ACTIONS } from "../api";
+import { useAppContext } from "../context";
 
 function Chirp(props) {
-  const { chirp, rechirp, hideGoToButton, isInnerChirp } = {
-    ...props,
-  };
+  const { chirp, hideGoToButton, isInnerChirp, isRechirp } = props;
+
+  const { setReChirp, showReChirpModule, setShowReChirpModule } =
+    useAppContext();
 
   const [likes, setLikes] = useState(chirp.tweet_likes);
 
@@ -14,13 +16,17 @@ function Chirp(props) {
 
   const handleGoToChirp = (e) => {
     e.preventDefault();
+    if (showReChirpModule) {
+      setShowReChirpModule(false);
+    }
     history.push(`/detailview/${chirp.id}`);
   };
 
   const handleRechirp = (e) => {
     e.preventDefault();
-    if (chirp && window.localStorage.getItem(LSTORAGE_TAGS.TOKEN)) {
-      rechirp(chirp);
+    setReChirp(chirp);
+    if (!showReChirpModule) {
+      setShowReChirpModule(true);
     }
   };
 
@@ -53,7 +59,9 @@ function Chirp(props) {
           <Chirp
             isInnerChirp={true}
             chirp={chirp.tweet_parent}
-            rechirp={rechirp}
+            setReChirp={setReChirp}
+            showReChirpModule={showReChirpModule}
+            setShowReChirpModule={setShowReChirpModule}
           />
         ) : null}
         {chirp.tweet_parent && !chirp.tweet_parent.id ? (
@@ -68,7 +76,7 @@ function Chirp(props) {
         {hideGoToButton ? null : (
           <button onClick={handleGoToChirp}>Go to</button>
         )}
-        <button onClick={handleRechirp}>ReChirp</button>
+        {!isRechirp && <button onClick={handleRechirp}>ReChirp</button>}
       </div>
     </div>
   );
