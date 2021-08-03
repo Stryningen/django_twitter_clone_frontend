@@ -11,11 +11,13 @@ export const END_POINTS = {
   URL_API_AUTH: "http://localhost:8000/api-auth/",
   POST_TOKEN: "user/token/",
   POST_USER_CREATE: "user/create/",
+  GET_PROFILE: "profiles/",
 };
 
 export const LSTORAGE_TAGS = {
   USERNAME: "chirp-username",
   TOKEN: "chirp-token",
+  ID: "chirp-user-id",
 };
 
 export const CHIRPS_ACTIONS = {
@@ -75,10 +77,16 @@ export const fetchApiAuth = async (
 
   const response = await fetch(url, options)
     .then((response) => {
+      console.log("response");
+      console.log(response);
       return response.json();
     })
-    .then((data) => data)
-    .catch((error) => console.log(error.errors));
+    .then((data) => {
+      console.log("data");
+      console.log(data);
+      return data;
+    })
+    .catch((error) => console.log(error));
   return response;
 };
 
@@ -118,4 +126,37 @@ export const fetchChirpAction = async (
     .then((data) => data)
     .catch((error) => console.log(error.errors));
   return response;
+};
+
+export const fetchProfile = async (
+  id = "None",
+  endpoint = END_POINTS.GET_PROFILE,
+  method = "GET",
+  data = null
+) => {
+  const storage = window.localStorage;
+  const url = END_POINTS.URL_API_CHIRPS + endpoint + id;
+  let headers = {
+    "Content-Type": "application/json",
+  };
+  const token = storage.getItem(LSTORAGE_TAGS.TOKEN);
+  const csrftoken = Cookies.get("csrftoken");
+  if (csrftoken) {
+    headers = { ...headers, "X-CSRFToken": `${csrftoken}` };
+  }
+  if (token) {
+    headers = { ...headers, Authorization: ` TOKEN ${token}` };
+  }
+  let options = {
+    method: method,
+    headers: headers,
+  };
+  if (data) {
+    options = { ...options, body: JSON.stringify(data) };
+  }
+
+  const loaded_profile = await fetch(url, options)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+  return loaded_profile;
 };

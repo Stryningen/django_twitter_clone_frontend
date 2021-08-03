@@ -36,30 +36,38 @@ const LoginModule = (props) => {
     if (!response) {
       return;
     }
-    if (response.non_field_errors) {
-      response.non_field_errors.forEach((error) => {
-        tmpErrors.push(["Failed", error]);
-      });
+    if (response.errors) {
+      const errors = response.errors;
+      if (errors.non_field_errors) {
+        errors.non_field_errors.forEach((error) => {
+          tmpErrors.push(["Failed", error]);
+        });
+      }
+      if (errors.username) {
+        errors.username.forEach((error) => {
+          tmpErrors.push(["Username", error]);
+        });
+      }
+      if (errors.password) {
+        errors.password.forEach((error) => {
+          tmpErrors.push(["Password", error]);
+        });
+      }
+      setErrors(tmpErrors);
     }
-    if (response.username) {
-      response.username.forEach((error) => {
-        tmpErrors.push(["Username", error]);
-      });
+    if (response.result) {
+      const result = response.result;
+
+      if (!result.token) {
+        return;
+      }
+      storage.setItem(LSTORAGE_TAGS.USERNAME, response.result.username);
+      storage.setItem(LSTORAGE_TAGS.TOKEN, response.result.token);
+      storage.setItem(LSTORAGE_TAGS.ID, response.result.id);
+      setCurrentUser(true);
+      setShowLoginOutModule(false);
+      history.push("/");
     }
-    if (response.password) {
-      response.password.forEach((error) => {
-        tmpErrors.push(["Password", error]);
-      });
-    }
-    setErrors(tmpErrors);
-    if (!response.token) {
-      return;
-    }
-    storage.setItem(LSTORAGE_TAGS.USERNAME, response.user);
-    storage.setItem(LSTORAGE_TAGS.TOKEN, response.token);
-    setCurrentUser(true);
-    setShowLoginOutModule(false);
-    history.push("/");
   };
 
   return (
@@ -102,6 +110,7 @@ const LogoutModule = (props) => {
     e.preventDefault();
     storage.removeItem(LSTORAGE_TAGS.USERNAME);
     storage.removeItem(LSTORAGE_TAGS.TOKEN);
+    storage.removeItem(LSTORAGE_TAGS.ID);
     setCurrentUser(false);
     setShowLoginOutModule(false);
     history.push("/");

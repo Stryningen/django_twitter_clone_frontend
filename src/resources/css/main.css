@@ -153,6 +153,10 @@ header > nav > * {
   align-items: center;
 }
 
+.profile-form {
+  margin-top: 3rem;
+}
+
 .form {
   display: flex;
   flex-flow: column nowrap;

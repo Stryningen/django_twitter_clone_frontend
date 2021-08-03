@@ -2,12 +2,16 @@ import { useAppContext } from "../context";
 
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { LSTORAGE_TAGS } from "../api";
 
 const MIN_WINDOW_SIZE = 700;
 
 function Header(props) {
   const { currentUser } = useAppContext();
   const { setShowLoginOutModule, setShowMenuModule } = props;
+
+  const storage = window.localStorage;
+  const id = storage.getItem(LSTORAGE_TAGS.ID);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -23,7 +27,6 @@ function Header(props) {
   const handleOpenMenuModule = (e) => {
     e.preventDefault();
     setShowMenuModule(true);
-    console.log("open menu");
   };
 
   useEffect(() => {
@@ -46,7 +49,7 @@ function Header(props) {
       {windowWidth > MIN_WINDOW_SIZE && (
         <nav>
           {!currentUser && <Link to="/signup">Sign up</Link>}
-          <Link to="/">Profile</Link>
+          {currentUser && <Link to={`/profilepage/${id}`}>Profile</Link>}{" "}
           <Link to="/">Follow new chirpers</Link>
         </nav>
       )}

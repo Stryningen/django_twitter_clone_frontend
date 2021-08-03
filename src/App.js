@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./resources/css/main.css";
 import { useAppContext } from "./context";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const [showLoginOutModule, setShowLoginOutModule] = useState(false);
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/signup" component={SignUpPage} />
         <Route exact path="/detailview/:id" component={ChirpDetailView} />
+        <Route exact path="/profilepage/:id" component={ProfilePage} />
         {showLoginOutModule && (
           <LoginOutModule setShowLoginOutModule={setShowLoginOutModule} />
         )}

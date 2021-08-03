@@ -7,7 +7,7 @@ import { useAppContext } from "../context";
 function Chirp(props) {
   const { chirp, hideGoToButton, isInnerChirp, isRechirp } = props;
 
-  const { setReChirp, showReChirpModule, setShowReChirpModule } =
+  const { setReChirp, showReChirpModule, setShowReChirpModule, currentUser } =
     useAppContext();
 
   const [likes, setLikes] = useState(chirp.tweet_likes);
@@ -32,15 +32,19 @@ function Chirp(props) {
 
   const handleLike = async (e) => {
     e.preventDefault();
-    const response = await fetchChirpAction(CHIRPS_ACTIONS.LIKE, chirp.id);
-    if (response.action) {
-      if (response.action === "like") {
-        setLikes(likes + 1);
+    if (currentUser) {
+      const response = await fetchChirpAction(CHIRPS_ACTIONS.LIKE, chirp.id);
+      if (response.action) {
+        if (response.action === "like") {
+          setLikes(likes + 1);
+        }
+        if (response.action === "unlike") {
+          setLikes(likes - 1);
+        }
       }
-      if (response.action === "unlike") {
-        setLikes(likes - 1);
-      }
+      return;
     }
+    alert("You must be logged in to like a post");
   };
   return (
     <div className={isInnerChirp ? "chirp rechirp" : "chirp"}>
@@ -76,7 +80,9 @@ function Chirp(props) {
         {hideGoToButton ? null : (
           <button onClick={handleGoToChirp}>Go to</button>
         )}
-        {!isRechirp && <button onClick={handleRechirp}>ReChirp</button>}
+        {currentUser && !isRechirp && (
+          <button onClick={handleRechirp}>ReChirp</button>
+        )}
       </div>
     </div>
   );
