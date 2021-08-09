@@ -32,27 +32,32 @@ function SignUpPage() {
       setErrors([["Password", "Password cannot be empty"]]);
       return;
     }
+
     if (password === passwordTwo) {
-      const errors = [];
+      const loaded_errors = [];
       const data = {
         username: username,
         password: password,
         ignore_password_validation: ignorePasswordValidation,
       };
       const response = await fetchApiAuth(data, END_POINTS.POST_USER_CREATE);
+      console.log(response);
       if (response) {
-        if (response.password) {
-          response.password.forEach((error) =>
-            errors.push(["Password", error])
-          );
+        if (response.errors) {
+          const errors = response.errors;
+          if (errors.password) {
+            errors.password.forEach((error) =>
+              loaded_errors.push(["Password", error])
+            );
+          }
+          if (errors.username) {
+            errors.username.forEach((error) =>
+              loaded_errors.push(["Username", error])
+            );
+          }
         }
-        if (response.username) {
-          response.username.forEach((error) =>
-            errors.push(["Username", error])
-          );
-        }
-        setErrors(errors);
-        if (errors.length < 1) {
+        setErrors(loaded_errors);
+        if (loaded_errors.length < 1) {
           history.push("/");
         }
         return;
