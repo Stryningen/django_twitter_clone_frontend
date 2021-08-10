@@ -9,9 +9,11 @@
   --secondary-color: white;
   --radius-rounded-corner: 5px;
 
-  /* should add to 100vh */
+  /* should add up to 100vh */
   --header-height: 10vh;
   --main-height: 90vh;
+
+  --main-min-width: 20rem;
 }
 
 /***  General Elements  ***/
@@ -113,7 +115,7 @@ header > nav > * {
   margin: 0.5rem 0;
   border: black solid 1px;
   border-radius: var(--radius-rounded-corner);
-  min-width: 20rem;
+  min-width: var(--main-min-width);
 }
 
 .chirp > * {
@@ -147,14 +149,32 @@ header > nav > * {
   margin: 0.5rem 0;
   border: black solid 1px;
   border-radius: 5px;
-  min-width: 20em;
+  min-width: var(--main-min-width);
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
 }
 
 .profile-form {
+  padding: 1rem;
   margin-top: 3rem;
+  border: solid black 1px;
+  border-radius: 5px;
+  min-width: var(--main-min-width);
+}
+
+.profile-form label {
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.profile-form > span {
+  max-width: var(--main-min-width);
+  align-self: flex-start;
+}
+
+.profile-form > textarea {
+  min-width: var(--main-min-width);
 }
 
 .form {
@@ -177,6 +197,14 @@ header > nav > * {
 
 .form .form-checkbox-wrapper * {
   margin: 0.5em;
+}
+
+.label-input-container {
+  min-width: 100%;
+}
+
+.label-input-container > label {
+  margin-right: 0.5em;
 }
 
 /***  Modules  ***/

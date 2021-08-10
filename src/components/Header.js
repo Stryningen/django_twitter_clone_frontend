@@ -49,7 +49,7 @@ function Header(props) {
       {windowWidth > MIN_WINDOW_SIZE && (
         <nav>
           {!currentUser && <Link to="/signup">Sign up</Link>}
-          {currentUser && <Link to={`/profilepage/${id}`}>Profile</Link>}{" "}
+          {currentUser && <Link to={`/profilepage/${id}`}>Profile</Link>}
           <Link to="/">Follow new chirpers</Link>
         </nav>
       )}

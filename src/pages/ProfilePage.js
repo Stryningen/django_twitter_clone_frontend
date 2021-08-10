@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { fetchProfile } from "../api";
+import { fetchProfile, LSTORAGE_TAGS, END_POINTS } from "../api";
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -28,41 +28,48 @@ function ProfilePage() {
     }
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    fetchProfile(id, END_POINTS.POST_PROFILE, "POST", { profile_bio: bio });
+    toggleEdit(e);
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    toggleEdit(e);
+    setBio(storage.getItem(LSTORAGE_TAGS.BIO));
+  };
+
   useEffect(async () => {
-    console.log("loading profile");
-    const response = await fetchProfile(id);
+    const response = await fetchProfile(id, END_POINTS.POST_PROFILE);
     const { profile_user, profile_bio } = response.result;
     setName(profile_user.username);
     setBio(profile_bio);
+    storage.setItem(LSTORAGE_TAGS.BIO, profile_bio);
   }, []);
   return (
     <div>
       <main>
         <form className="form profile-form">
-          <label htmlFor="name">Name:</label>
-          {isEditing && (
-            <input
-              ref={nameRef}
-              value={name}
-              onChange={handleChange}
-              type="text"
-            />
-          )}
-          {!isEditing && <span>{name}</span>}
+          <h1>Profile</h1>
+          <div className="label-input-container">
+            <label htmlFor="name">Name:</label>
+            <span>{name}</span>
+          </div>
           <label htmlFor="name">Bio:</label>
           {isEditing && (
-            <input
+            <textarea
+              rows="10"
               ref={bioRef}
               value={bio}
               onChange={handleChange}
-              type="text"
             />
           )}
           {!isEditing && <span>{bio}</span>}
           {isEditing && (
             <>
-              <button>Save changes</button>
-              <button onClick={toggleEdit}>Cancel</button>
+              <button onClick={handleSave}>Save changes</button>
+              <button onClick={handleCancel}>Cancel</button>
             </>
           )}
           {!isEditing && <button onClick={toggleEdit}>Edit</button>}

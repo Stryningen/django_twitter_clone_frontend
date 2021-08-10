@@ -1,11 +1,16 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context";
+import { LSTORAGE_TAGS } from "../api";
 
 function MenuModule(props) {
   const { showMenuModule, setShowMenuModule, setShowLoginOutModule } = props;
   const wrapperRef = useRef(null);
   const closeModuleBtnRef = useRef(null);
+
+  const storage = window.localStorage;
+  const id = storage.getItem(LSTORAGE_TAGS.ID);
+
   const { currentUser } = useAppContext();
 
   const handleCloseModule = (e) => {
@@ -34,9 +39,14 @@ function MenuModule(props) {
               Sign up
             </Link>
           )}
-          <Link onClick={() => setShowMenuModule(false)} to="/">
-            Profile
-          </Link>
+          {currentUser && (
+            <Link
+              onClick={() => setShowMenuModule(false)}
+              to={`/profilepage/${id}`}
+            >
+              Profile
+            </Link>
+          )}
           <Link onClick={() => setShowMenuModule(false)} to="/">
             Follow new chirpers
           </Link>

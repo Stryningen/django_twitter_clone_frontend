@@ -12,12 +12,14 @@ export const END_POINTS = {
   POST_TOKEN: "user/token/",
   POST_USER_CREATE: "user/create/",
   GET_PROFILE: "profiles/",
+  POST_PROFILE: "profiles/",
 };
 
 export const LSTORAGE_TAGS = {
   USERNAME: "chirp-username",
   TOKEN: "chirp-token",
   ID: "chirp-user-id",
+  BIO: "chirp-user-bio",
 };
 
 export const CHIRPS_ACTIONS = {
@@ -135,7 +137,10 @@ export const fetchProfile = async (
   data = null
 ) => {
   const storage = window.localStorage;
-  const url = END_POINTS.URL_API_CHIRPS + endpoint + id;
+  let url = END_POINTS.URL_API_CHIRPS + endpoint;
+  if (method === "GET") {
+    url = url + id;
+  }
   let headers = {
     "Content-Type": "application/json",
   };
