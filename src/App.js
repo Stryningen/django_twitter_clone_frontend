@@ -28,7 +28,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/signup" component={SignUpPage} />
         <Route exact path="/detailview/:id" component={ChirpDetailView} />
-        <Route exact path="/profilepage/:id" component={ProfilePage} />
+        <Route exact path="/profilepage/:profile_id" component={ProfilePage} />
         {showLoginOutModule && (
           <LoginOutModule setShowLoginOutModule={setShowLoginOutModule} />
         )}

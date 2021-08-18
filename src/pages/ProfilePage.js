@@ -5,14 +5,16 @@ import { fetchProfile, LSTORAGE_TAGS, END_POINTS } from "../api";
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
   const [name, setName] = useState("Loaading...");
   const [bio, setBio] = useState("Loading...");
 
   const nameRef = useRef(null);
   const bioRef = useRef(null);
 
-  const { id } = useParams();
+  const { profile_id } = useParams();
   const storage = window.localStorage;
+  const user_id = storage.getItem(LSTORAGE_TAGS.ID);
 
   const toggleEdit = (e) => {
     e.preventDefault();
@@ -30,7 +32,9 @@ function ProfilePage() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    fetchProfile(id, END_POINTS.POST_PROFILE, "POST", { profile_bio: bio });
+    fetchProfile(profile_id, user_id, END_POINTS.POST_PROFILE, "POST", {
+      profile_bio: bio,
+    });
     toggleEdit(e);
   };
 
@@ -40,12 +44,26 @@ function ProfilePage() {
     setBio(storage.getItem(LSTORAGE_TAGS.BIO));
   };
 
+  const handleFollow = (e) => {
+    e.preventDefault();
+    console.log("follow");
+  };
+
   useEffect(async () => {
-    const response = await fetchProfile(id, END_POINTS.POST_PROFILE);
-    const { profile_user, profile_bio } = response.result;
-    setName(profile_user.username);
-    setBio(profile_bio);
-    storage.setItem(LSTORAGE_TAGS.BIO, profile_bio);
+    const response = await fetchProfile(
+      profile_id,
+      user_id,
+      END_POINTS.POST_PROFILE
+    );
+    if (response && response.result) {
+      const { profile_user, profile_bio, can_edit_profile } = response.result;
+      setName(profile_user.username);
+      setBio(profile_bio);
+      if (can_edit_profile == true) {
+        setCanEdit(true);
+      }
+      storage.setItem(LSTORAGE_TAGS.BIO, profile_bio);
+    }
   }, []);
   return (
     <div>
@@ -66,13 +84,14 @@ function ProfilePage() {
             />
           )}
           {!isEditing && <span>{bio}</span>}
-          {isEditing && (
+          {canEdit && isEditing && (
             <>
               <button onClick={handleSave}>Save changes</button>
               <button onClick={handleCancel}>Cancel</button>
             </>
           )}
-          {!isEditing && <button onClick={toggleEdit}>Edit</button>}
+          {canEdit && !isEditing && <button onClick={toggleEdit}>Edit</button>}
+          {!canEdit && <button onClick={handleFollow}>Follow</button>}
         </form>
       </main>
     </div>

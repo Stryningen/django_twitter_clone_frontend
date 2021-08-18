@@ -131,7 +131,8 @@ export const fetchChirpAction = async (
 };
 
 export const fetchProfile = async (
-  id = "None",
+  profile_id = "None",
+  user_id = "None",
   endpoint = END_POINTS.GET_PROFILE,
   method = "GET",
   data = null
@@ -139,7 +140,7 @@ export const fetchProfile = async (
   const storage = window.localStorage;
   let url = END_POINTS.URL_API_CHIRPS + endpoint;
   if (method === "GET") {
-    url = url + id;
+    url = url + profile_id;
   }
   let headers = {
     "Content-Type": "application/json",
@@ -157,6 +158,7 @@ export const fetchProfile = async (
     headers: headers,
   };
   if (data) {
+    data = { ...data, user_id: user_id, profile_id: profile_id };
     options = { ...options, body: JSON.stringify(data) };
   }
 
@@ -164,4 +166,40 @@ export const fetchProfile = async (
     .then((response) => response.json())
     .catch((error) => console.log(error));
   return loaded_profile;
+};
+
+export const fetchFollowAction = async (
+  following_id,
+  follower_id,
+  method = "POST"
+) => {
+  const storage = window.localStorage;
+  const url = END_POINTS.URL_API_CHIRPS + END_POINTS.POST_CHIRP_ACTION;
+  const data = {
+    follower_id: follower_id,
+    following_id: following_id,
+  };
+  let headers = {
+    "Content-Type": "application/json",
+  };
+  const token = storage.getItem(LSTORAGE_TAGS.TOKEN);
+  const csrftoken = Cookies.get("csrftoken");
+  if (csrftoken) {
+    headers = { ...headers, "X-CSRFToken": `${csrftoken}` };
+  }
+  if (token) {
+    headers = { ...headers, Authorization: ` TOKEN ${token}` };
+  }
+  let options = {
+    method: method,
+    headers: headers,
+    body: JSON.stringify(data),
+  };
+  const response = await fetch(url, options)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => data)
+    .catch((error) => console.log(error.errors));
+  return response;
 };
