@@ -13,6 +13,7 @@ export const END_POINTS = {
   POST_USER_CREATE: "user/create/",
   GET_PROFILE: "profiles/",
   POST_PROFILE: "profiles/",
+  POST_FOLLOW: "profiles/action/",
 };
 
 export const LSTORAGE_TAGS = {
@@ -174,7 +175,7 @@ export const fetchFollowAction = async (
   method = "POST"
 ) => {
   const storage = window.localStorage;
-  const url = END_POINTS.URL_API_CHIRPS + END_POINTS.POST_CHIRP_ACTION;
+  const url = END_POINTS.URL_API_CHIRPS + END_POINTS.POST_FOLLOW;
   const data = {
     follower_id: follower_id,
     following_id: following_id,
@@ -199,7 +200,10 @@ export const fetchFollowAction = async (
     .then((response) => {
       return response.json();
     })
-    .then((data) => data)
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
     .catch((error) => console.log(error.errors));
   return response;
 };

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { fetchProfile, LSTORAGE_TAGS, END_POINTS } from "../api";
+import {
+  fetchProfile,
+  fetchFollowAction,
+  LSTORAGE_TAGS,
+  END_POINTS,
+} from "../api";
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -47,6 +52,7 @@ function ProfilePage() {
   const handleFollow = (e) => {
     e.preventDefault();
     console.log("follow");
+    fetchFollowAction(profile_id, user_id);
   };
 
   useEffect(async () => {

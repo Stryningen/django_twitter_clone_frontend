@@ -5,7 +5,7 @@ import { fetchChirpAction, CHIRPS_ACTIONS } from "../api";
 import { useAppContext } from "../context";
 
 function Chirp(props) {
-  const { chirp, hideGoToButton, isInnerChirp, isRechirp } = props;
+  const { chirp, isDetailView, isInnerChirp, isRechirp } = props;
 
   const { setReChirp, showReChirpModule, setShowReChirpModule, currentUser } =
     useAppContext();
@@ -46,6 +46,10 @@ function Chirp(props) {
     }
     alert("You must be logged in to like a post");
   };
+  const handleDeleteChirp = (e) => {
+    e.preventDefault();
+    console.log("delete Chirp");
+  };
   return (
     <div className={isInnerChirp ? "chirp rechirp" : "chirp"}>
       <p className="chirp-poster">
@@ -77,8 +81,9 @@ function Chirp(props) {
       </div>
       <div className="button-h-container">
         <button onClick={handleLike}>{`Like ${likes}`}</button>
-        {hideGoToButton ? null : (
-          <button onClick={handleGoToChirp}>Go to</button>
+        {isDetailView ? null : <button onClick={handleGoToChirp}>Go to</button>}
+        {!isDetailView ? null : (
+          <button onClick={handleDeleteChirp}>Delete</button>
         )}
         {currentUser && !isRechirp && (
           <button onClick={handleRechirp}>ReChirp</button>

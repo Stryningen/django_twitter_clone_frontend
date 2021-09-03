@@ -20,7 +20,7 @@ function ChirpDetailView() {
 
   return (
     <main className="detail-page">
-      {chirp ? <Chirp chirp={chirp} hideGoToButton={true} /> : `loading ${id}`}
+      {chirp ? <Chirp chirp={chirp} isDetailView={true} /> : `loading ${id}`}
     </main>
   );
 }
